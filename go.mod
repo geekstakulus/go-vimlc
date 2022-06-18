@@ -1,3 +1,3 @@
-module github.com/vim-jp/go-vimlparser
+module github.com/viegasfh/go-vimltranspiler
 
-go 1.14
+go 1.18
