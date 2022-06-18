@@ -1,7 +1,9 @@
-// Package compiler provides compiler from Vim script AST into S-expression
-// like format which is the same format as Compiler of vim-vimlparser.
+// Package compiler provides transpilers for Vim script AST into S-expression,
+// and Vim script to Lua, and may support other languages in the future.
+// The s-expression like format is the same format as the Compiler of 
+// vim-vimlparser.
 // ref: "go/printer"
-package compiler
+package sexpression
 
 import (
 	"bytes"
@@ -9,8 +11,8 @@ import (
 	"io"
 	"strings"
 
-	"github.com/vim-jp/go-vimlparser/ast"
-	"github.com/vim-jp/go-vimlparser/token"
+	"github.com/viegasfh/go-vimltranspiler/ast"
+	"github.com/viegasfh/go-vimltranspiler/token"
 )
 
 // Config for Compiler.

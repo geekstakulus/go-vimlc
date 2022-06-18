@@ -1,4 +1,4 @@
-package compiler
+package sexpression
 
 import (
 	"bytes"
@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/vim-jp/go-vimlparser"
+	"github.com/viegasfh/go-vimltranspiler"
 )
 
 var skipTests = map[string]bool{

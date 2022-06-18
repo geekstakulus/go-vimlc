@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/vim-jp/go-vimlparser/ast"
-	internal "github.com/vim-jp/go-vimlparser/go"
+	"github.com/viegasfh/go-vimltranspiler/ast"
+	internal "github.com/viegasfh/go-vimltranspiler/go"
 )
 
 // ErrVimlParser represents VimLParser error.
@@ -20,9 +20,9 @@ type ErrVimlParser struct {
 
 func (e *ErrVimlParser) Error() string {
 	if e.Filename != "" {
-		return fmt.Sprintf("%v:%d:%d: vimlparser: %v", e.Filename, e.Line, e.Column, e.Msg)
+		return fmt.Sprintf("%v:%d:%d: vimltranspiler: %v", e.Filename, e.Line, e.Column, e.Msg)
 	}
-	return fmt.Sprintf("vimlparser: %v: line %d col %d", e.Msg, e.Line, e.Column)
+	return fmt.Sprintf("vimltranspiler: %v: line %d col %d", e.Msg, e.Line, e.Column)
 }
 
 // ParseOption is option for Parse().

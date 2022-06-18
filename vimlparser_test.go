@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/vim-jp/go-vimlparser/compiler"
+	"github.com/viegasfh/go-vimltranspiler/compiler/sexpression"
 )
 
 func TestParseFile_can_parse(t *testing.T) {
@@ -15,7 +15,7 @@ func TestParseFile_can_parse(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	okErr := "vimlparser:"
+	okErr := "vimltranspiler:"
 	match = append(match, "autoload/vimlparser.vim")
 	match = append(match, "go/gocompiler.vim")
 	for _, filename := range match {
@@ -43,7 +43,7 @@ func BenchmarkParseFile(b *testing.B) {
 }
 
 func TestParseFile_error(t *testing.T) {
-	want := "path/to/filename.go:1:1: vimlparser: E492: Not an editor command: hoge"
+	want := "path/to/filename.go:1:1: vimltranspiler: E492: Not an editor command: hoge"
 	_, err := ParseFile(strings.NewReader("hoge"), "path/to/filename.go", nil)
 	if err != nil {
 
@@ -62,7 +62,7 @@ func TestParseExpr_Compile(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	c := compiler.Compiler{Config: compiler.Config{Indent: "  "}}
+	c := sexpression.Compiler{Config: sexpression.Config{Indent: "  "}}
 	b := new(bytes.Buffer)
 	if err := c.Compile(b, node); err != nil {
 		t.Fatal(err)
@@ -73,7 +73,7 @@ func TestParseExpr_Compile(t *testing.T) {
 }
 
 func TestParseExpr_Parser_err(t *testing.T) {
-	want := "vimlparser: unexpected token: /: line 1 col 4"
+	want := "vimltranspiler: unexpected token: /: line 1 col 4"
 	_, err := ParseExpr(strings.NewReader("1 // 2"))
 	if err != nil {
 

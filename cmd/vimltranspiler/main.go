@@ -7,12 +7,13 @@ import (
 	"io"
 	"os"
 
-	"github.com/vim-jp/go-vimlparser"
-	"github.com/vim-jp/go-vimlparser/compiler"
+	"github.com/viegasfh/go-vimltranspiler"
+	"github.com/viegasfh/go-vimltranspiler/compiler/sexpression"
 )
 
 var neovim = flag.Bool("neovim", false, "use neovim parser")
 var usejson = flag.Bool("json", false, "output json")
+var _uselua = flag.Bool("lua", false, "output lua")
 
 func main() {
 	flag.Parse()
@@ -60,7 +61,7 @@ func parseFile(filename string, r io.ReadCloser, w io.Writer, opt *vimlparser.Pa
 		e.SetIndent("", "    ")
 		return e.Encode(node)
 	}
-	c := &compiler.Compiler{Config: compiler.Config{Indent: "  "}}
+	c := &sexpression.Compiler{Config: sexpression.Config{Indent: "  "}}
 	if err := c.Compile(w, node); err != nil {
 		return err
 	}

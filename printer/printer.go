@@ -10,8 +10,8 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/vim-jp/go-vimlparser/ast"
-	"github.com/vim-jp/go-vimlparser/token"
+	"github.com/viegasfh/go-vimltranspiler/ast"
+	"github.com/viegasfh/go-vimltranspiler/token"
 )
 
 type whiteSpace byte
@@ -70,7 +70,7 @@ func (p *printer) printNode(node ast.Node) error {
 	case ast.Statement:
 		return p.stmt(n)
 	default:
-		return fmt.Errorf("go-vimlparser/printer: unsupported node type %T", node)
+		return fmt.Errorf("go-vimltranspiler/printer: unsupported node type %T", node)
 	}
 	return nil
 }
