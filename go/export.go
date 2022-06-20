@@ -3,8 +3,8 @@ package vimlparser
 import (
 	"fmt"
 
-	"github.com/viegasfh/go-vimltranspiler/ast"
-	"github.com/viegasfh/go-vimltranspiler/token"
+	"github.com/viegasfh/go-vimlc/ast"
+	"github.com/viegasfh/go-vimlc/token"
 )
 
 // Parse parses Vim script in reader and returns Node.

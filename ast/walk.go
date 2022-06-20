@@ -28,7 +28,7 @@ func Walk(v Visitor, node Node) {
 	// walk children
 	// (the order of the cases matches the order
 	// of the corresponding node types in newAstNode func
-	// in github.com/viegasfh/go-vimltranspiler/go/export.go)
+	// in github.com/viegasfh/go-vimlc/go/export.go)
 	switch n := node.(type) {
 	case *File:
 		walkStmtList(v, n.Body)

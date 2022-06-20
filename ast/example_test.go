@@ -6,8 +6,8 @@ import (
 
 	"strings"
 
-	"github.com/viegasfh/go-vimltranspiler"
-	"github.com/viegasfh/go-vimltranspiler/ast"
+	"github.com/viegasfh/go-vimlc"
+	"github.com/viegasfh/go-vimlc/ast"
 )
 
 // This example demonstrates how to inspect the AST of a Go program.

@@ -3,7 +3,7 @@
 package ast
 
 import (
-	"github.com/viegasfh/go-vimltranspiler/token"
+	"github.com/viegasfh/go-vimlc/token"
 )
 
 // Node is the interface for all node types to implement.

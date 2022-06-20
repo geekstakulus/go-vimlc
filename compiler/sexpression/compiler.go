@@ -11,8 +11,8 @@ import (
 	"io"
 	"strings"
 
-	"github.com/viegasfh/go-vimltranspiler/ast"
-	"github.com/viegasfh/go-vimltranspiler/token"
+	"github.com/viegasfh/go-vimlc/ast"
+	"github.com/viegasfh/go-vimlc/token"
 )
 
 // Config for Compiler.

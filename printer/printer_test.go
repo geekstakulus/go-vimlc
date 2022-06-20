@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/viegasfh/go-vimltranspiler"
+	"github.com/viegasfh/go-vimlc"
 )
 
 func TestFprint_file(t *testing.T) {

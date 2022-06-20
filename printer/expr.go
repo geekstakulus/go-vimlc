@@ -3,8 +3,8 @@ package printer
 import (
 	"fmt"
 
-	"github.com/viegasfh/go-vimltranspiler/ast"
-	"github.com/viegasfh/go-vimltranspiler/token"
+	"github.com/viegasfh/go-vimlc/ast"
+	"github.com/viegasfh/go-vimlc/token"
 )
 
 func (p *printer) expr(expr ast.Expr) {

@@ -85,7 +85,7 @@ func TestVimLParser_parse(t *testing.T) {
 	}
 }
 
-const basePkg = "github.com/viegasfh/go-vimltranspiler/go"
+const basePkg = "github.com/viegasfh/go-vimlc/go"
 
 var skipTests = map[string]bool{
 	"test_xxx_colonsharp": true,

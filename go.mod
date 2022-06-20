@@ -1,3 +1,3 @@
-module github.com/viegasfh/go-vimltranspiler
+module github.com/viegasfh/go-vimlc
 
 go 1.18

@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/viegasfh/go-vimltranspiler"
+	"github.com/viegasfh/go-vimlc"
 )
 
 var skipTests = map[string]bool{

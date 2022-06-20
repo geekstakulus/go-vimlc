@@ -7,18 +7,19 @@ import (
 	"io"
 	"os"
 
-	"github.com/viegasfh/go-vimltranspiler"
-	"github.com/viegasfh/go-vimltranspiler/compiler/sexpression"
+	"github.com/viegasfh/go-vimlc"
+	"github.com/viegasfh/go-vimlc/compiler/sexpression"
+	"github.com/viegasfh/go-vimlc/compiler/luacomp"
 )
 
-var neovim = flag.Bool("neovim", false, "use neovim parser")
+var sexpr = flag.Bool("sexpr", false, "output s-expression")
 var usejson = flag.Bool("json", false, "output json")
-var _uselua = flag.Bool("lua", false, "output lua")
+var uselua = flag.Bool("lua", false, "output lua")
 
 func main() {
 	flag.Parse()
 
-	opt := &vimlparser.ParseOption{Neovim: *neovim}
+	opt := &vimlparser.ParseOption{Neovim: *sexpr}
 
 	if len(flag.Args()) == 0 {
 		if err := parseFile("", os.Stdin, os.Stdout, opt, *usejson); err != nil {
@@ -60,10 +61,17 @@ func parseFile(filename string, r io.ReadCloser, w io.Writer, opt *vimlparser.Pa
 		e := json.NewEncoder(w)
 		e.SetIndent("", "    ")
 		return e.Encode(node)
+	} else if *uselua {
+		c := &luacomp.Compiler{Config: luacomp.Config{Indent: "  "}}
+		if err := c.Compile(w, node); err != nil {
+			return err
+		}
+	} else {
+		c := &sexpression.Compiler{Config: sexpression.Config{Indent: "  "}}
+		if err := c.Compile(w, node); err != nil {
+			return err
+		}
 	}
-	c := &sexpression.Compiler{Config: sexpression.Config{Indent: "  "}}
-	if err := c.Compile(w, node); err != nil {
-		return err
-	}
+
 	return nil
 }

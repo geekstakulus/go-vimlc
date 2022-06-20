@@ -5,9 +5,9 @@ import (
 	"strings"
 	"testing"
 
-	vimlparser "github.com/viegasfh/go-vimltranspiler"
-	"github.com/viegasfh/go-vimltranspiler/ast"
-	"github.com/viegasfh/go-vimltranspiler/token"
+	vimlparser "github.com/viegasfh/go-vimlc"
+	"github.com/viegasfh/go-vimlc/ast"
+	"github.com/viegasfh/go-vimlc/token"
 )
 
 func TestFprint_expr(t *testing.T) {

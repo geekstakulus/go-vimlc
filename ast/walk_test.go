@@ -6,8 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/viegasfh/go-vimltranspiler"
-	"github.com/viegasfh/go-vimltranspiler/ast"
+	"github.com/viegasfh/go-vimlc"
+	"github.com/viegasfh/go-vimlc/ast"
 )
 
 func TestInspect(t *testing.T) {
@@ -15,7 +15,7 @@ func TestInspect(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	okErr := "vimltranspiler:"
+	okErr := "vimlc:"
 	match = append(match, "../autoload/vimlparser.vim")
 	match = append(match, "../go/gocompiler.vim")
 	for _, filename := range match {
