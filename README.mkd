@@ -1,138 +1,97 @@
-# Vim Script Parser written in Go
+# VimLC - VimScript to Lua/Vim9Script Transpiler
 
-[![CI Status](https://github.com/vim-jp/go-vimlparser/workflows/CI/badge.svg)](https://github.com/vim-jp/go-vimlparser/actions)
-[![codecov](https://codecov.io/gh/vim-jp/go-vimlparser/branch/master/graph/badge.svg)](https://codecov.io/gh/vim-jp/go-vimlparser)
-[![Sourcegraph](https://sourcegraph.com/github.com/vim-jp/go-vimlparser/-/badge.svg)](https://sourcegraph.com/github.com/vim-jp/go-vimlparser?badge)
-[![GoDoc](https://godoc.org/github.com/vim-jp/go-vimlparser?status.svg)](https://godoc.org/github.com/vim-jp/go-vimlparser)
+VimLC is a transpiler that converts VimScript to Lua or Vim9Script, making it easier for developers to migrate legacy Vim plugins to NeoVim or Vim9+. The tool is built upon a fork of go-vimlc, which was itself transpiled from a vimlc, a VimScript parser implemented in VimScript.
 
-This repository is the fork of https://github.com/vim-jp/go-vimlparser 
-with the aim of turning it into a VimL interpreter as well as a compiler 
-of VimL to Lua and Vim9 code. 
+## Features
 
-### :zap: The Fastest Vim Script Parser!
+- Converts VimScript to Lua or Vim9Script
+- Reports syntax and limited semantic errors
+- Save time and effort converting legacy Vim plugins to NeoVim or Vim9+
 
-#### Benchmarks
+It's important to note that the tool is not intended to be a full-fledged compiler and provides limited support for semantic analysis. Moreover, since the original code was transpiled from VimScript, it will require refactoring to idiomatic Go.
 
-<details>
+This project is a rewrite of an experimental project that was originally built for my personal use.
 
-```sh
-$ pwd
-/home/vim-jp/src/github.com/ynkdir/vim-vimlparser
+## Installation
 
-$ git rev-parse HEAD
-2fff43c58968a18bc01bc8304df68bde01af04d9
+To use VimLC, you must have Go 1.18+ installed on your system. To install VimLC, follow these steps:
 
-$ wc -l < autoload/vimlparser.vim
-5195
+1. Clone this repository: `git clone https://github.com/geekstakulus/go-vimlc.git`
+2. Navigate to the VimLC directory: `cd go-vimlc`
+3. Install the VimLC binary: `go install cmd/vimlc/main.go`
 
-$ time vim -u NONE -N --cmd "let &rtp .= ',' . getcwd()" --cmd "silent call vimlparser#test('autoload/vimlparser.vim')" -c ":q"
-vim -u NONE -N --cmd "let &rtp .= ',' . getcwd()" --cmd  -c ":q"  48.88s user 0.05s system 99% cpu 48.942 total
+## Usage
 
-$ python3 -V
-Python 3.5.0
+To use VimLC, simply run the following command:
 
-$ time python3 py/vimlparser.py autoload/vimlparser.vim > /dev/null
-python3 py/vimlparser.py autoload/vimlparser.vim > /dev/null  4.17s user 0.04s system 99% cpu 4.236 total
+```bash
 
-$ pypy3 -V
-Python 3.2.5 (b2091e973da69152b3f928bfaabd5d2347e6df46, Mar 04 2016, 07:08:30)
-[PyPy 2.4.0 with GCC 5.3.0]
-
-$ time pypy3 py/vimlparser.py autoload/vimlparser.vim > /dev/null
-pypy3 py/vimlparser.py autoload/vimlparser.vim > /dev/null  2.63s user 0.06s system 99% cpu 2.694 total
-
-$ node --version
-v4.2.3
-
-$ time node js/vimlparser.js autoload/vimlparser.vim > /dev/null
-node js/vimlparser.js autoload/vimlparser.vim > /dev/null  0.77s user 0.04s system 125% cpu 0.644 total
-
-$ go get github.com/viegasfh/go-vimlc/cmd/vimlc
-$ time vimlc autoload/vimlparser.vim > /dev/null
-vimlc autoload/vimlparser.vim > /dev/null  0.25s user 0.03s system 114% cpu 0.244 total
-```
-</details>
-
-| Language | Time (sec) |
-| -------- | ---- |
-| Vim script | 48.88s |
-| Python3 | 4.17s |
-| pypy3 | 2.63s |
-| node | 0.77s |
-| Go | **0.25s** |
-
-Note that, in addition to the Go lang speed, I added [performance improvement](https://github.com/vim-jp/go-vimlparser/pull/4) for Go implementation.
-
-### Rich interface compared to other implementation
-
-go-vimlparser is written in Go which is typed language and I added Go-ish interface,
-so you can see each node fields. e.g. https://godoc.org/github.com/vim-jp/go-vimlparser/ast#Function
-
-| package | doc |
-| --- | --- |
-| go-vimlparser | [![GoDoc](https://godoc.org/github.com/vim-jp/go-vimlparser?status.svg)](https://godoc.org/github.com/vim-jp/go-vimlparser) |
-| go-vimlparser/ast | [![GoDoc](https://godoc.org/github.com/vim-jp/go-vimlparser/ast?status.svg)](https://godoc.org/github.com/vim-jp/go-vimlparser/ast) |
-| go-vimlparser/token | [![GoDoc](https://godoc.org/github.com/vim-jp/go-vimlparser/token?status.svg)](https://godoc.org/github.com/vim-jp/go-vimlparser/token) |
-
-### CLI tool
-
-#### Installation
-
-```
-go get github.com/viegasfh/go-vimlc/cmd/vimlc
+vimlc /path/to/vimscript/file.vim
 ```
 
-#### Usage
+This will transpile the VimScript file to Lua or Vim9Script, depending on the chosen output format, and output the result to stdout. Alternatively, you can specify an output file with the `-o` flag:
 
-```
-$ echo 'let x = 1' | vimlc
-(let = x 1)
-$ vimlc autoload/vimlparser.vim | head -n 5
-; vim:set ts=8 sts=2 sw=2 tw=0 et:
-;
-; VimL parser - Vim Script Parser
-;
-; License: This file is placed in the public domain.
+```bash
+vimlc /path/to/vimscript/file.vim -o /path/to/output/file.lua
 ```
 
-#### As a Lint Tool
+By default, VimLC will display parsing errors to stderr. To disable this behavior, use the `-quiet` flag:
 
-You can use it to detect syntax error.
-It doesn't check much things compared to existing lint tool for Vim script, but it runs fast even if you pass lots of files to it.
-
-```
-$ vimlparser **/*.vim > /dev/null
-test/test_err_funcarg_duplicate.vim:1:20: vimlparser: E853: Duplicate argument name: b
-test/test_err_funcarg_firstline.vim:1:14: vimlparser: E125: Illegal argument: firstline
-test/test_err_funcarg_lastline.vim:1:14: vimlparser: E125: Illegal argument: lastline
-test/test_err_funcarg.vim:1:44: vimlparser: E125: Illegal argument: a:bar
-test/test_err_funcname.vim:11:10: vimlparser: E128: Function name must start with a capital or contain a colon: foo
-test/test_err_toomanyarg.vim:1:9: vimlparser: E740: Too many arguments for function
-test/test_err_varname.vim:1:5: vimlparser: E461: Illegal variable name: foo:bar
-test/test_issue16_err_line_continuation_lnum2.vim:3:9: vimlparser: E488: Trailing characters: z
-test/test_issue16_err_line_continuation_lnum.vim:2:9: vimlparser: E488: Trailing characters: z
-test/test_neo_tnoremap.vim:1:1: vimlparser: E492: Not an editor command: tnoremap <Esc> <C-\><C-N>
-test/test_noneo_tnoremap.vim:1:1: vimlparser: E492: Not an editor command: tnoremap <Esc> <C-\><C-N>
-test/test_xxx_colonsharp.vim:2:6: vimlparser: unexpected token: :
-test/test_xxx_err_funcarg_space_comma.vim:19:14: vimlparser: E475: Invalid argument: White space is not allowed before comma
+```bash
+vimlc /path/to/vimscript/file.vim -quiet
 ```
 
-```vim
+## As a Lint Tool
+
+You can use it to detect syntax error. It doesn't check much things compared to existing lint tool for Vim script, but it runs fast even if you pass lots of files to it.
+
+```bash
+$ vimlc **/*.vim > /dev/null
+test/test_err_funcarg_duplicate.vim:1:20: vimlc: E853: Duplicate argument name: b
+test/test_err_funcarg_firstline.vim:1:14: vimlc: E125: Illegal argument: firstline
+test/test_err_funcarg_lastline.vim:1:14: vimlc: E125: Illegal argument: lastline
+test/test_err_funcarg.vim:1:44: vimlc: E125: Illegal argument: a:bar
+test/test_err_funcname.vim:11:10: vimlc: E128: Function name must start with a capital or contain a colon: foo
+test/test_err_toomanyarg.vim:1:9: vimlc: E740: Too many arguments for function
+test/test_err_varname.vim:1:5: vimlc: E461: Illegal variable name: foo:bar
+test/test_issue16_err_line_continuation_lnum2.vim:3:9: vimlc: E488: Trailing characters: z
+test/test_issue16_err_line_continuation_lnum.vim:2:9: vimlc: E488: Trailing characters: z
+test/test_neo_tnoremap.vim:1:1: vimlc: E492: Not an editor command: tnoremap <Esc> <C-\><C-N>
+test/test_noneo_tnoremap.vim:1:1: vimlc: E492: Not an editor command: tnoremap <Esc> <C-\><C-N>
+test/test_xxx_colonsharp.vim:2:6: vimlc: unexpected token: :
+test/test_xxx_err_funcarg_space_comma.vim:19:14: vimlc: E475: Invalid argument: White space is not allowed before comma
+```
+```vimscript
 " sample
-command! LintVimLParser :silent cexpr system('vimlparser ' . expand('%') . ' > /dev/null')
-augroup lint-vimlparser
+command! LintVimLC :silent cexpr system('vimlc ' . expand('%') . ' > /dev/null')
+augroup lint-vimlc
   autocmd!
-  autocmd BufWritePost *.vim LintVimLParser
+  autocmd BufWritePost *.vim LintVimLC
 augroup END
 ```
 
-### Credit
+## Contributing
 
-[@ynkdir](https://github.com/ynkdir) for https://github.com/ynkdir/vim-vimlparser
-[@vim-jp](https://github.com/vim-jp) for https://github.com/vim-jp/go-vimlparser
+Contributions to VimLC are welcome and encouraged! To contribute, please follow these steps:
 
-### :bird: Author
+1. Fork this repository
+2. Create a new branch: `git checkout -b my-feature-branch`
+3. Make your changes and commit them: `git commit -am 'Add some feature'`
+4. Push your changes to your fork: `git push origin my-feature-branch`
+5. Create a pull request
+
+Please be sure to include tests for your changes, and make sure all tests pass before submitting your pull request.
+
+## Credit
+
+[@ynkdir](https://github.com/ynkdir) for https://github.com/ynkdir/vim-vimlc [@vim-jp](https://github.com/vim-jp) for https://github.com/vim-jp/go-vimlc
+
+## ![bird](https://github.githubassets.com/images/icons/emoji/unicode/1f426.png) Author
 
 Original Author: haya14busa (https://github.com/haya14busa)
 
-Maintenance Author: viegasfh
+Maintenance Author: Fidel H Viegas (https://github.com/geekstakulus)
+
+## License
+
+VimLC is released under the MIT License. See [LICENSE](https://chat.openai.com/chat/LICENSE) for more information.
