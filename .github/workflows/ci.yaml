@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        go: ['1.14', '1.15' ]
+        go: ['1.18' ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -22,8 +22,6 @@ jobs:
           go-version: ${{ matrix.go }}
       - name: Debug Vim version
         run: vim --version
-      - name: Install gosumcheck
-        run: env GO111MODULE=off go get github.com/haya14busa/gosum/cmd/gosumcheck
       - name: Test
         run: go test -v -race -coverpkg=./... -coverprofile=coverage.txt ./...
       - name: Check code generation diff
