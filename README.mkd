@@ -84,7 +84,7 @@ Please be sure to include tests for your changes, and make sure all tests pass b
 
 ## Credit
 
-[@ynkdir](https://github.com/ynkdir) for https://github.com/ynkdir/vim-vimlc [@vim-jp](https://github.com/vim-jp) for https://github.com/vim-jp/go-vimlc
+[@ynkdir](https://github.com/ynkdir) for https://github.com/ynkdir/vim-vimlparser [@vim-jp](https://github.com/vim-jp) for https://github.com/vim-jp/go-vimlparser
 
 ## ![bird](https://github.githubassets.com/images/icons/emoji/unicode/1f426.png) Author
 
