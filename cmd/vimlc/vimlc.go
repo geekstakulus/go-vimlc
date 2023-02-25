@@ -9,12 +9,10 @@ import (
 
 	"github.com/viegasfh/go-vimlc"
 	"github.com/viegasfh/go-vimlc/compiler/sexpression"
-	"github.com/viegasfh/go-vimlc/compiler/luacomp"
 )
 
 var sexpr = flag.Bool("sexpr", false, "output s-expression")
 var usejson = flag.Bool("json", false, "output json")
-var uselua = flag.Bool("lua", false, "output lua")
 
 func main() {
 	flag.Parse()
@@ -61,11 +59,6 @@ func parseFile(filename string, r io.ReadCloser, w io.Writer, opt *vimlparser.Pa
 		e := json.NewEncoder(w)
 		e.SetIndent("", "    ")
 		return e.Encode(node)
-	} else if *uselua {
-		c := &luacomp.Compiler{Config: luacomp.Config{Indent: "  "}}
-		if err := c.Compile(w, node); err != nil {
-			return err
-		}
 	} else {
 		c := &sexpression.Compiler{Config: sexpression.Config{Indent: "  "}}
 		if err := c.Compile(w, node); err != nil {
